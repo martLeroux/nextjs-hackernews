@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import Error from 'next/error';
+import StoryList from '../components/StoryList'
 
 
 function Page({ stories }) {
@@ -8,12 +9,10 @@ function Page({ stories }) {
         return <Error statusCode={503}/>
     }
     return (
-        <>
-        <h1>Hacker News</h1>
-        {stories.map(story => (
-            <h2 key={story.id}>{story.title}</h2>
-        ))}
-        </>
+        <div>
+            <h1>Hacker News</h1>
+            <StoryList stories={stories} />
+        </div>
     )
   }
   
