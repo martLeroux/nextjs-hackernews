@@ -1,32 +1,45 @@
 import fetch from 'isomorphic-fetch';
 import Error from 'next/error';
-import StoryList from '../components/StoryList'
+import StoryList from '../components/StoryList';
+import Link from 'next/link';
+
+import Layout from '../components/Layout';
 
 
-function Page({ stories }) {
-
+function Page({ stories, page }) {
+    console.log(stories);
     if (stories.length === 0) {
         return <Error statusCode={503}/>
     }
     return (
-        <div>
+        <Layout title="Hacker News" description="A hacker news clone made with next.js">
             <h1>Hacker News</h1>
             <StoryList stories={stories} />
-        </div>
+
+            <footer>
+                <Link href={`/?page=${page + 1}`}>
+                    <a>Click here</a>
+                </Link>
+            </footer>
+        </Layout>
     )
   }
   
-  Page.getInitialProps = async (ctx) => {
+  Page.getInitialProps = async ({req, res, query}) => {
     let stories;
+    let page;
+
     try {
-        const res = await fetch('https://node-hnapi.herokuapp.com/news?page=1')
+        page = query.page ? Number(query.page) : 1;
+        console.log(page);
+        const res = await fetch(`https://node-hnapi.herokuapp.com/news?page=${page}`)
         stories = await res.json()
     }   catch (err) {
         console.log(err);
         stories = [];
     }
 
-    return { stories }
+    return { stories, page }
   }
   
   export default Page
