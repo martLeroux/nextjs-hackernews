@@ -18,9 +18,21 @@ function Page({ stories, page }) {
 
             <footer>
                 <Link href={`/?page=${page + 1}`}>
-                    <a>Click here</a>
+                    <a>Next page ({page + 1})</a>
                 </Link>
             </footer>
+
+            <style jsx> {`
+                footer {
+                    padding: 1em;
+                }
+                footer a {
+                    font-weight: bold;
+                    text-decoration: none;
+                    color: black;
+                }
+            `}
+            </style>
         </Layout>
     )
   }
