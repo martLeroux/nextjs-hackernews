@@ -11,6 +11,21 @@ function Page({ stories, page }) {
     if (stories.length === 0) {
         return <Error statusCode={503}/>
     }
+
+    React.useEffect(() => {
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker
+              .register("/service-worker.js")
+              .then(registration => {
+                console.log("service worker registration successful", registration);
+              })
+              .catch(err => {
+                console.warn("service worker registration failed", err.message);
+              });
+        }
+    });
+
+
     return (
         <Layout title="Hacker News" description="A hacker news clone made with next.js">
             <h1>Hacker News</h1>
